@@ -11,7 +11,13 @@
                 <h3 class="fw-bold text-white mt-2">Welcome Back</h3>
                 <p class="text-sub small">Sign in to access your Vaultium workspace</p>
             </div>
-
+            {% if messages %}
+                <div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    {% for message in messages %}
+                       <p style="margin: 0; font-weight: bold;">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <form method="POST" class="custom-input">
                 {% csrf_token %}
                 <div class="mb-3">
