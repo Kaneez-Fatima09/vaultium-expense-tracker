@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-bbc=if2q6c9fg677we38(tid$zb6dej2%myx2cm*20$j)+7(3_'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-bbc=if2q6c9fg677we38(tid$zb6dej2%myx2cm*20$j)+7(3_')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['vaultium-expense-tracker.onrender.com', '.onrender.com', '127.0.0.1', 'localhost']
+
 
 # Application definition
 
@@ -41,6 +43,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise recommended for Render deployment to serve static files correctly:
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -115,24 +119,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files configuration
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
-
+# Authentication Redirections
 LOGIN_URL = 'login'
 
 
-# settings.py
-
-# Official Support Email
+# Email Configuration
 OFFICIAL_SUPPORT_EMAIL = '89kaneezfatima@gmail.com'
 
-# Standard Django Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '89kaneezfatima@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-16-digit-app-password'  # Google App Password yahan dalen
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your-16-digit-app-password')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
