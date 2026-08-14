@@ -11,22 +11,24 @@
                 <h3 class="fw-bold text-white mt-2">Welcome Back</h3>
                 <p class="text-sub small">Sign in to access your Vaultium workspace</p>
             </div>
+
             {% if messages %}
-                <div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
-                    {% for message in messages %}
-                       <p style="margin: 0; font-weight: bold;">{{ message }}</p>
-                    {% endfor %}
-                </div>
+                {% for message in messages %}
+                    <div class="alert alert-danger bg-dark border border-danger text-danger text-center py-2 px-3 small rounded-3 mb-4 shadow-sm" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation me-1"></i> {{ message }}
+                    </div>
+                {% endfor %}
             {% endif %}
+
             <form method="POST" class="custom-input">
                 {% csrf_token %}
                 <div class="mb-3">
-                    <label>Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+                    <label class="text-light small mb-1">Username</label>
+                    <input type="text" name="username" class="form-control bg-dark text-white border-secondary" placeholder="Enter username" required>
                 </div>
                 <div class="mb-4">
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+                    <label class="text-light small mb-1">Password</label>
+                    <input type="password" name="password" class="form-control bg-dark text-white border-secondary" placeholder="Enter password" required>
                 </div>
                 <button type="submit" class="btn btn-neon w-100 py-2 fs-6"><i class="fa-solid fa-right-to-bracket me-1"></i> Sign In</button>
             </form>
