@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-bbc=if2q6c9fg677we38(tid$zb6dej2%myx2cm*20$j)+7(3_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['vaultium-expense-tracker.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
