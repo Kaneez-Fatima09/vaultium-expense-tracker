@@ -1,0 +1,61 @@
+{% extends 'expenses/base.html' %}
+
+{% block title %}Setup Vault PIN - Vaultium{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-5">
+        <div class="glass-card p-5 shadow-lg border-info">
+            <div class="text-center mb-4">
+                <i class="bi bi-shield-shaded display-5 text-info mb-2"></i>
+                <h3 class="fw-bold text-white">Create Vault PIN</h3>
+                <p class="text-sub small">Set up a security PIN and recovery question to protect your personal vault.</p>
+            </div>
+
+            {% if messages %}
+                <div class="mb-3">
+                    {% for message in messages %}
+                        <div class="alert alert-danger py-2 mb-2 text-center" role="alert" style="font-size: 0.9rem;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'vault_setup' %}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label text-sub small">Enter New PIN</label>
+                    <input type="password" name="pin" class="form-control text-center" placeholder="••••" maxlength="6" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-sub small">Confirm PIN</label>
+                    <input type="password" name="confirm_pin" class="form-control text-center" placeholder="••••" maxlength="6" required>
+                </div>
+                
+                <!-- Security Question Dropdown -->
+                <div class="mb-3">
+                    <label class="form-label text-sub small">Security Question (For Recovery)</label>
+                    <select name="security_question" class="form-select bg-dark text-white border-secondary" required>
+                        <option value="" selected disabled>Select a security question...</option>
+                        <option value="What was the name of your first pet?">What was the name of your first pet?</option>
+                        <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+                        <option value="What was the name of your first school?">What was the name of your first school?</option>
+                        <option value="What is your favorite book or movie?">What is your favorite book or movie?</option>
+                        <option value="In which city were you born?">In which city were you born?</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-sub small">Security Answer</label>
+                    <input type="text" name="security_answer" class="form-control" placeholder="Enter your answer" required>
+                </div>
+
+                <button type="submit" class="btn btn-cyan w-100 py-2 fw-bold shadow">
+                    Save PIN & Secure Vault
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

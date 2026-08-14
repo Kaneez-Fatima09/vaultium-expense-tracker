@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Vaultium{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #070c18 !important;
+            color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-wrapper {
+            flex: 1;
+        }
+
+        /* Standard Text & Headings */
+        p, span, label {
+            color: #cbd5e1;
+        }
+
+        h1, h2, h3, h4, h5, h6, strong, .fw-bold {
+            color: #f8fafc !important;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 242, 254, 0.2) !important;
+            border-radius: 1rem !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Navbar Customization */
+        .navbar-custom {
+            background-color: #050811;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.8rem 2rem;
+        }
+
+        .nav-link {
+            color: #94a3b8 !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #00f2fe !important;
+        }
+
+        .nav-link.active {
+            font-weight: 600;
+        }
+
+        /* Custom Inputs & Placeholders Fix */
+        .custom-dark-input, .form-control, .form-select {
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(0, 242, 254, 0.2) !important;
+            color: #f8fafc !important;
+            border-radius: 0.6rem !important;
+            padding: 0.75rem 1rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .form-control::placeholder, .custom-dark-input::placeholder {
+            color: #64748b !important;
+            opacity: 1;
+        }
+
+        .custom-dark-input:focus, .form-control:focus, .form-select:focus {
+            background-color: rgba(15, 23, 42, 0.9) !important;
+            border-color: #00f2fe !important;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.35) !important;
+            color: #ffffff !important;
+            outline: none !important;
+        }
+
+        /* Chrome, Safari, Edge Autofill White Background Fix */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #0b1329 inset !important;
+            -webkit-text-fill-color: #f8fafc !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* Buttons Styling */
+        .btn-cyan, .btn-neon {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%) !important;
+            color: #050b14 !important;
+            font-weight: 700 !important;
+            border: none !important;
+            border-radius: 0.6rem !important;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.35);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-cyan:hover, .btn-neon:hover {
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.75) !important;
+            transform: translateY(-2px);
+            color: #000000 !important;
+        }
+
+        /* Neon Glow Helpers */
+        .neon-text-cyan {
+            color: #00f2fe !important;
+            text-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
+        }
+
+        .hover-glow {
+            transition: all 0.3s ease;
+        }
+
+        .hover-glow:hover {
+            color: #00f2fe !important;
+            text-shadow: 0 0 18px rgba(0, 242, 254, 0.9);
+        }
+
+        .text-sub {
+            color: #94a3b8 !important;
+        }
+
+        /* Footer Style */
+        .footer-custom {
+            background-color: #050811;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-custom a {
+            color: #94a3b8 !important;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-custom a:hover {
+            color: #00f2fe !important;
+        }
+
+        /* Glassmorphic Alerts Fix for Dark Mode */
+        .alert {
+            background: rgba(13, 245, 160, 0.12) !important;
+            border: 1px solid rgba(0, 245, 160, 0.4) !important;
+            color: #00f5a0 !important;
+            backdrop-filter: blur(10px);
+            border-radius: 12px !important;
+            box-shadow: 0 4px 20px rgba(0, 245, 160, 0.15);
+        }
+
+        .alert-danger, .alert-error {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.4) !important;
+            color: #ef4444 !important;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15);
+        }
+
+        .alert .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+            <div class="container-fluid px-2">
+                
+                <!-- Dynamic Vaultium Logo Target -->
+                <a class="navbar-brand d-flex align-items-center gap-3" href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}/{% endif %}" style="text-decoration: none;">
+                    <div class="d-flex align-items-center justify-content-center px-2 py-2" 
+                         style="background-color: #0b1329; border: 1.5px solid #00f2fe; box-shadow: 0 0 12px rgba(0, 242, 254, 0.25); border-radius: 12px !important;">
+                        <i class="bi bi-shield-fill fs-4" style="color: #00f2fe; line-height: 1;"></i>
+                    </div>
+                    
+                    <span class="fw-bold fs-2" style="font-family: 'Segoe UI', system-ui, sans-serif; letter-spacing: -0.5px;">
+                        <span style="color: #ffffff !important;">Vault</span><span style="color: #00f2fe !important; filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.8));">ium</span>
+                    </span>
+                </a>
+
+                <button class="navbar-toggler navbar-dark border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navigation Links & User Controls -->
+                <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                    {% if user.is_authenticated %}
+                        <!-- Links for Logged-In Users -->
+                        <ul class="navbar-nav mx-auto gap-3">
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %} d-flex align-items-center gap-2" href="{% url 'dashboard' %}">
+                                    <i class="bi bi-speedometer2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'analytics' %}active{% endif %} d-flex align-items-center gap-2" href="{% url 'analytics' %}">
+                                    <i class="bi bi-pie-chart"></i> Analytics
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'budgets' %}active{% endif %} d-flex align-items-center gap-2" href="{% url 'budgets' %}">
+                                    <i class="bi bi-wallet2"></i> Budgets
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'yearly_history' %}active{% endif %} d-flex align-items-center gap-2" href="{% url 'yearly_history' %}">
+                                    <i class="bi bi-card-heading"></i> Reports
+                                </a>
+                            </li>
+                            <!-- Personal Vault Link Added -->
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'vault' in request.resolver_match.url_name %}active{% endif %} d-flex align-items-center gap-2" href="{% url 'vault_list' %}">
+                                    <i class="bi bi-shield-lock"></i> Personal Vault
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- Right Side User Info & Logout -->
+                        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                            <span class="small d-flex align-items-center gap-2" style="color: #94a3b8 !important;">
+                                <i class="bi bi-person-circle fs-6 text-info"></i> {{ user.username }}
+                            </span>
+                            <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-danger px-3 py-1 rounded-2">Logout</a>
+                        </div>
+                    {% else %}
+                        <!-- Spacer for Logged-Out View -->
+                        <ul class="navbar-nav mx-auto gap-3"></ul>
+
+                        <!-- Right Side Login / Register Actions -->
+                        <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                            <a href="{% url 'login' %}" class="btn btn-sm btn-outline-info px-3 py-1 rounded-2 me-1">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                            </a>
+                            <a href="{% url 'register' %}" class="btn btn-sm btn-cyan px-3 py-1 rounded-2">
+                                Get Started
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Container -->
+        <div class="py-4">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-custom py-3 mt-auto">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center align-items-center gap-3 mb-1">
+                <a href="{% url 'help' %}" class="small">Help Center (FAQs)</a>
+                <span style="color: #475569 !important;">•</span>
+                <a href="{% url 'feedback' %}" class="small">Feedback</a>
+                <span style="color: #475569 !important;">•</span>
+                <a href="{% url 'privacy' %}" class="small">Privacy Policy</a>
+            </div>
+            <p class="mb-0 small" style="color: #64748b !important;">
+                &copy; {% now "Y" %} <span style="color: #00f2fe !important;">Vaultium</span>. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

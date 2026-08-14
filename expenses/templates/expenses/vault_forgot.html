@@ -1,0 +1,52 @@
+{% extends 'expenses/base.html' %}
+
+{% block title %}Reset Vault PIN - Vaultium{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-5">
+        <div class="glass-card p-5 shadow-lg border-info">
+            <div class="text-center mb-4">
+                <i class="bi bi-key-fill display-5 text-info mb-2"></i>
+                <h3 class="fw-bold text-white">Reset Vault PIN</h3>
+                <p class="text-sub small">Answer your security question to reset your PIN.</p>
+            </div>
+
+            {% if messages %}
+                <div class="mb-3">
+                    {% for message in messages %}
+                        <div class="alert alert-danger py-2 mb-2 text-center" role="alert" style="font-size: 0.9rem;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'vault_forgot' %}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label text-sub small">Security Question</label>
+                    <p class="text-white fw-medium bg-dark p-2 rounded border border-secondary">{{ question|default:"No security question set. Please contact support." }}</p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-sub small">Your Answer</label>
+                    <input type="text" name="security_answer" class="form-control" placeholder="Enter answer" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-sub small">New PIN</label>
+                    <input type="password" name="new_pin" class="form-control text-center" placeholder="••••" maxlength="6" required>
+                </div>
+                <button type="submit" class="btn btn-cyan w-100 py-2 fw-bold shadow mb-3">
+                    Reset PIN
+                </button>
+            </form>
+
+            <div class="text-center">
+                <a href="{% url 'vault_unlock' %}" class="text-sub text-decoration-none small">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Unlock
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

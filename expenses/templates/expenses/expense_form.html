@@ -1,0 +1,125 @@
+{% extends 'expenses/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card glass-card p-4 p-md-5">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+                <h3 class="fw-bold text-white mb-0 d-flex align-items-center gap-2">
+                    <i class="bi bi-receipt neon-text-cyan fs-3"></i> 
+                    {% if object %}Edit Transaction{% else %}Add New Transaction{% endif %}
+                </h3>
+                <a href="{% url 'dashboard' %}" class="btn-close btn-close-white" aria-label="Close"></a>
+            </div>
+
+            <!-- Future Date Dynamic Warning Alert -->
+            <div id="future-date-warning" class="alert alert-warning border-0 bg-warning bg-opacity-25 text-warning small mb-4 rounded-3 d-none align-items-center gap-2">
+                <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                <div>
+                    <strong>Future Date Selected:</strong> You are adding a transaction for a future date/next month. Please verify if this is an upcoming or scheduled expense.
+                </div>
+            </div>
+
+            <!-- Django Form -->
+            <form method="POST" id="transactionForm">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="alert alert-danger border-0 bg-danger bg-opacity-25 text-danger small mb-4 rounded-3">
+                        Please check the inputs and correct the errors below.
+                    </div>
+                {% endif %}
+
+                <!-- Transaction Title (Poori 100% Full Width / Description waale box ke barabar) -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label">Transaction Title</label>
+                        {% if form.title %}
+                            <div class="w-100">{{ form.title }}</div>
+                        {% else %}
+                            <input type="text" name="title" class="form-control w-100" placeholder="e.g. Grocery Shopping, Monthly Rent, Salary" value="{{ form.title.value|default:'' }}" required style="width: 100% !important;">
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Amount, Category & Date Row (Single Row 3-Column) -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Amount (₹)</label>
+                        {% if form.amount %}
+                            {{ form.amount }}
+                        {% else %}
+                            <input type="number" step="0.01" name="amount" class="form-control" placeholder="0.00" value="{{ form.amount.value|default:'' }}" required>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label class="form-label">Category</label>
+                        {% if form.category %}
+                            {{ form.category }}
+                        {% else %}
+                            <select name="category" class="form-select" required>
+                                <option value="" disabled selected>- Select Category -</option>
+                                <option value="food">Food & Dining</option>
+                                <option value="utilities">Bills & Utilities</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="travel">Travel & Transport</option>
+                                <option value="other">Other</option>
+                            </select>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Date</label>
+                        <input type="date" name="date" id="transaction_date" class="form-control" value="{{ form.date.value|default:'' }}" required>
+                    </div>
+                </div>
+
+                <!-- Notes / Description (Same Width as Title Above) -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <label class="form-label">Notes / Description</label>
+                        {% if form.description %}
+                            <div class="w-100">{{ form.description }}</div>
+                        {% else %}
+                            <textarea name="description" class="form-control w-100" rows="3" placeholder="Add optional details...">{{ form.description.value|default:'' }}</textarea>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex gap-3 align-items-center pt-2">
+                    <button type="submit" class="btn btn-cyan px-4 py-2 flex-grow-1">
+                        <i class="bi bi-shield-check me-2"></i> Save Transaction
+                    </button>
+                    <a href="{% url 'dashboard' %}" class="btn btn-dark px-4 py-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dateInput = document.getElementById("transaction_date");
+        const warningAlert = document.getElementById("future-date-warning");
+
+        if (dateInput) {
+            dateInput.addEventListener("change", function () {
+                const selectedDate = new Date(this.value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                if (selectedDate > today) {
+                    warningAlert.classList.remove("d-none");
+                    warningAlert.classList.add("d-flex");
+                } else {
+                    warningAlert.classList.add("d-none");
+                    warningAlert.classList.remove("d-flex");
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

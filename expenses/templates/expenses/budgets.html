@@ -1,0 +1,41 @@
+{% extends 'expenses/base.html' %}
+
+{% block content %}
+<div class="glass-card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold mb-1 text-white"><i class="fa-solid fa-bullseye me-2 neon-text-cyan"></i> Category Budget Status</h3>
+            <p class="text-sub mb-0">Dynamic real-time progress based on your actual logged transactions.</p>
+        </div>
+        <div class="text-end">
+            <span class="text-sub small">Total Recorded Expense</span>
+            <h2 class="fw-bold neon-text-green mb-0">₹{{ total_spent }}</h2>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% for b in budgets %}
+        <div class="col-md-6">
+            <div class="p-4 border border-secondary rounded-3 bg-dark">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-bold text-white fs-5">{{ b.category }}</span>
+                    <span class="text-sub">₹{{ b.spent }} / ₹{{ b.target }}</span>
+                </div>
+                <div class="progress bg-secondary" style="height: 12px; border-radius: 6px;">
+                    <div class="progress-bar {% if b.percentage > 85 %}bg-danger{% else %}bg-info{% endif %}" 
+                         style="width: {{ b.percentage }}%;"></div>
+                </div>
+                <div class="d-flex justify-content-between mt-2 small text-sub">
+                    <span>Used: {{ b.percentage }}%</span>
+                    <span>Target Cap: ₹{{ b.target }}</span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-4 text-sub">
+            No categories or spending recorded yet. Add expenses to track budgets!
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

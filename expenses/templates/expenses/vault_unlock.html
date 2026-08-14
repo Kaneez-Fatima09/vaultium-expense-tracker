@@ -1,0 +1,49 @@
+{% extends 'expenses/base.html' %}
+
+{% block title %}Unlock Vault - Vaultium{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-5">
+        <div class="glass-card p-5 text-center shadow-lg border-info">
+            <div class="mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle" style="background-color: rgba(0, 242, 254, 0.1); border: 2px solid #00f2fe;">
+                    <i class="bi bi-shield-lock display-5 text-info"></i>
+                </div>
+            </div>
+            
+            <h3 class="fw-bold text-white mb-2">Vault is Locked</h3>
+            <p class="text-sub mb-4">Enter your secure Vault PIN to access your confidential notes and files.</p>
+
+            {% if messages %}
+                <div class="mb-3">
+                    {% for message in messages %}
+                        <div class="alert alert-danger py-2 mb-2 text-center" role="alert" style="font-size: 0.9rem;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'vault_unlock' %}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="password" name="pin" class="form-control text-center fs-4" placeholder="••••" maxlength="6" required autofocus style="letter-spacing: 5px;">
+                </div>
+                <button type="submit" class="btn btn-cyan w-100 py-2 fw-bold shadow mb-3">
+                    <i class="bi bi-unlock-fill me-2"></i> Unlock Vault
+                </button>
+            </form>
+
+            <div class="d-flex justify-content-between align-items-center mt-2">
+                <a href="{% url 'dashboard' %}" class="text-sub text-decoration-none small">
+                    <i class="bi bi-arrow-left me-1"></i> Dashboard
+                </a>
+                <a href="{% url 'vault_forgot' %}" class="text-info text-decoration-none small">
+                    Forgot PIN?
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

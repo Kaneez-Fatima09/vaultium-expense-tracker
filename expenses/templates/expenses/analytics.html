@@ -1,0 +1,83 @@
+{% extends 'expenses/base.html' %}
+
+{% block content %}
+<style>
+    /* High contrast text overrides for Analytics */
+    .analytics-title-sub {
+        color: #d1dceb !important;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        font-size: 0.95rem;
+    }
+    .analytics-subtext {
+        color: #9cb0c9 !important;
+        font-size: 0.88rem;
+    }
+</style>
+
+<div class="glass-card p-4 p-md-5 mb-4">
+    <div class="mb-4">
+        <h2 class="display-6 fw-bold neon-text-cyan mb-1">
+            <i class="fa-solid fa-chart-line me-2"></i> Spending Analytics
+        </h2>
+        <p class="analytics-title-sub">Visual breakdown of your expenditure and habits.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Category Spend Overview -->
+        <div class="col-lg-6">
+            <div class="p-4 rounded-4 bg-dark border border-secondary h-100">
+                <h5 class="fw-bold text-white mb-1">Category Spend Overview</h5>
+                <p class="analytics-subtext mb-3">Distribution across all tracked expense buckets</p>
+                <div style="min-height: 250px;" class="d-flex justify-content-center align-items-center">
+                    <canvas id="analyticsCategoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Projection Card -->
+        <div class="col-lg-6">
+            <div class="p-4 rounded-4 bg-dark border border-secondary h-100 d-flex flex-column justify-content-center text-center">
+                <h5 class="fw-bold text-white mb-1">Monthly Projection</h5>
+                <p class="analytics-subtext mb-4">Total recorded spending till date.</p>
+                
+                <h1 class="display-3 fw-bold neon-text-green mb-2">₹{{ total_spent }}</h1>
+                <p class="analytics-title-sub mb-0"><i class="fa-solid fa-circle-check neon-text-cyan me-1"></i> Data updated live</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('analyticsCategoryChart').getContext('2d');
+        const labels = {{ cat_labels|safe }};
+        const dataValues = {{ cat_values|safe }};
+
+        if (labels.length === 0) {
+            document.getElementById('analyticsCategoryChart').insertAdjacentHTML('afterend', '<p class="analytics-subtext text-center my-auto">No transaction data available for analysis.</p>');
+            return;
+        }
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: ['#00f2fe', '#00f5a0', '#ff007f', '#7b2cbf', '#f72585', '#4cc9f0'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#ffffff', font: { size: 12 } } }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

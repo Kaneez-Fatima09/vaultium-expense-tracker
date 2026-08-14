@@ -1,0 +1,47 @@
+{% extends 'expenses/base.html' %}
+
+{% block title %}Feedback - Vaultium{% endblock %}
+
+{% block content %}
+<div class="container my-4" style="max-width: 600px;">
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-3" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="glass-card p-4 p-md-5">
+        <h3 class="fw-bold mb-2" style="color: #f8fafc !important;">Send Feedback</h3>
+        <p class="mb-4" style="color: #cbd5e1 !important;">Share your thoughts, report issues, or suggest new features.</p>
+
+        <form method="POST" action="{% url 'feedback' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label small fw-semibold" style="color: #cbd5e1 !important;">Your Name</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label small fw-semibold" style="color: #cbd5e1 !important;">Email Address</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="your.email@example.com" value="{{ user.email }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="subject" class="form-label small fw-semibold" style="color: #cbd5e1 !important;">Subject</label>
+                <input type="text" name="subject" id="subject" class="form-control" placeholder="Feature Request / Bug / General Feedback" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="message" class="form-label small fw-semibold" style="color: #cbd5e1 !important;">Message</label>
+                <textarea name="message" id="message" rows="5" class="form-control" placeholder="Describe your query or feedback..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-cyan w-100 py-2">Submit Feedback</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

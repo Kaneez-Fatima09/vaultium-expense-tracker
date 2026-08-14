@@ -1,0 +1,198 @@
+{% extends 'expenses/base.html' %}
+
+{% block content %}
+<!-- FontAwesome & Bootstrap Icons for Glowing Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+<style>
+    /* Neon Colors & Glow Variables */
+    :root {
+        --neon-cyan: #00f2fe;
+        --neon-green: #00f5a0;
+        --bg-glass: #0d1527;
+        --text-sub: #94a3b8;
+    }
+
+    /* Neon Text Glow Effects */
+    .neon-text-cyan {
+        color: var(--neon-cyan) !important;
+        text-shadow: 0 0 15px rgba(0, 242, 254, 0.6), 0 0 30px rgba(0, 242, 254, 0.3);
+    }
+
+    .neon-text-green {
+        color: var(--neon-green) !important;
+        text-shadow: 0 0 15px rgba(0, 245, 160, 0.6), 0 0 30px rgba(0, 245, 160, 0.3);
+    }
+
+    .text-sub {
+        color: var(--text-sub) !important;
+    }
+
+    /* Glassmorphism Card Styling */
+    .glass-card {
+        background-color: var(--bg-glass) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 20px !important;
+    }
+
+    /* Interactive Hover Glow Effects */
+    .feature-card {
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 242, 254, 0.15) !important;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--neon-cyan) !important;
+        box-shadow: 0 12px 35px rgba(0, 242, 254, 0.25) !important;
+    }
+
+    /* Glowing Action Button */
+    .btn-neon {
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%) !important;
+        color: #000 !important;
+        font-weight: 700;
+        border: none;
+        box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    .btn-neon:hover {
+        box-shadow: 0 0 30px rgba(0, 242, 254, 0.8);
+        transform: scale(1.03);
+    }
+</style>
+
+<!-- Main Container Wrapper for Side Margins & Spacing -->
+<div class="container px-3 px-md-4 py-2">
+
+    <!-- Hero Section -->
+    <section class="py-5 text-center my-3">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <span class="badge bg-dark border border-info neon-text-cyan px-3 py-2 rounded-pill mb-3 fs-7">
+                    <i class="fa-solid fa-shield-halved me-1"></i> Smart Financial Vault & Analytics
+                </span>
+                <h1 class="display-3 fw-bold text-white mb-3">Engineered for <span class="neon-text-cyan">Financial Control</span></h1>
+                <p class="lead text-sub mb-4 px-md-5">
+                    Take command of your day-to-day spending with instantaneous data breakdown, automated category tracking, and sleek dark analytics interface.
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{% url 'register' %}" class="btn btn-neon btn-lg fs-6 px-4 py-3 rounded-3"><i class="fa-solid fa-user-plus me-2"></i> Get Started Free</a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg fs-6 px-4 py-3 rounded-3"><i class="fa-solid fa-right-to-bracket me-2"></i> Account Login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Cards with Neon Hover Effects -->
+    <section class="py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-white fs-1">Designed For <span class="neon-text-green">Clarity</span></h2>
+            <p class="text-sub">Powerful financial features stripped of complexity.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="glass-card p-4 h-100 feature-card">
+                    <div class="fs-2 neon-text-cyan mb-3"><i class="fa-solid fa-chart-column"></i></div>
+                    <h4 class="fw-bold text-white">Visual Analytics</h4>
+                    <p class="text-sub mb-0">Interactive category distribution charts showing exactly where your capital moves each month.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card p-4 h-100 feature-card">
+                    <div class="fs-2 neon-text-green mb-3"><i class="fa-solid fa-bullseye"></i></div>
+                    <h4 class="fw-bold text-white">Budget Caps</h4>
+                    <p class="text-sub mb-0">Set monthly targets across dining, investments, and utilities with warning alerts.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card p-4 h-100 feature-card">
+                    <div class="fs-2 neon-text-cyan mb-3"><i class="fa-solid fa-lock"></i></div>
+                    <h4 class="fw-bold text-white">Private Vault</h4>
+                    <p class="text-sub mb-0">Fully isolated user data with strict authentication guards on every financial record.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preview Graph Section -->
+    <section class="py-5">
+        <div class="glass-card p-4 p-md-5">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <span class="badge bg-dark border border-info neon-text-cyan mb-3 px-3 py-2">Real-Time Insights</span>
+                    <h2 class="fw-bold text-white mb-3">Instant Breakdown & Smart Categorization</h2>
+                    <p class="text-sub mb-4">No complicated setups. Log transactions in under 5 seconds with automatic spending visualization and category insights.</p>
+                    <div class="d-flex gap-4">
+                        <div>
+                            <h3 class="fw-bold neon-text-green mb-0">100%</h3>
+                            <small class="text-sub">Private & Encrypted</small>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold neon-text-cyan mb-0">&lt; 0.1s</h3>
+                            <small class="text-sub">Sync Latency</small>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dynamic Graph Live Preview -->
+                <div class="col-lg-7">
+                    <div class="bg-dark p-4 rounded-4 border border-secondary border-opacity-25 shadow-lg" style="min-height: 280px;">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-bold text-white"><i class="fa-solid fa-chart-line neon-text-cyan me-2"></i> Monthly Spend Preview</span>
+                            <span class="badge bg-success bg-opacity-25 text-success border border-success px-2 py-1">Live Sync</span>
+                        </div>
+                        <div style="height: 220px; position: relative;">
+                            <canvas id="previewGraph"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Chart JS Script for Landing Preview -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('previewGraph').getContext('2d');
+        
+        // Dynamic Glowing Gradient Fill
+        let gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, 'rgba(0, 242, 254, 0.35)');
+        gradient.addColorStop(1, 'rgba(0, 242, 254, 0.0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Expenditure (₹)',
+                    data: [1200, 3100, 1800, 2450],
+                    borderColor: '#00f2fe',
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointBackgroundColor: '#00f5a0',
+                    pointRadius: 5,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { ticks: { color: '#b3c0d1' }, grid: { display: false } },
+                    y: { ticks: { color: '#b3c0d1' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

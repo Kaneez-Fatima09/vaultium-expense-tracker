@@ -1,0 +1,82 @@
+{% extends 'expenses/base.html' %}
+
+{% block content %}
+<div class="glass-card p-4 p-md-5 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <h2 class="fw-bold text-white mb-1"><i class="fa-solid fa-calendar-days neon-text-cyan me-2"></i> Yearly Expense Breakdown ({{ current_year }})</h2>
+            <p class="text-sub">Comprehensive monthly spend report for the active calendar year.</p>
+        </div>
+        <div class="text-end">
+            <small class="text-sub d-block">Annual Total</small>
+            <h3 class="fw-bold neon-text-green mb-0">₹{{ yearly_total }}</h3>
+        </div>
+    </div>
+
+    <!-- Monthly Visual Graph -->
+    <div class="bg-dark p-4 rounded-4 border border-secondary mb-5" style="height: 320px;">
+        <canvas id="yearlyChart"></canvas>
+    </div>
+
+    <!-- Written Monthly Data Table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped align-middle">
+            <thead>
+                <tr class="text-sub">
+                    <th>MONTH</th>
+                    <th>STATUS</th>
+                    <th class="text-end">TOTAL EXPENDITURE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in monthly_summary %}
+                <tr>
+                    <td class="fw-bold text-white">{{ item.month }}</td>
+                    <td>
+                        {% if item.amount > 0 %}
+                            <span class="badge bg-success bg-opacity-20 text-success border border-success">Recorded</span>
+                        {% else %}
+                            <span class="badge bg-secondary bg-opacity-20 text-muted">No Spend</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end fw-bold neon-text-cyan">₹{{ item.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('yearlyChart').getContext('2d');
+        const labels = {{ month_names_json|safe }};
+        const spendings = {{ month_spendings_json|safe }};
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Expenditure (₹)',
+                    data: spendings,
+                    backgroundColor: 'rgba(0, 242, 254, 0.6)',
+                    borderColor: '#00f2fe',
+                    borderWidth: 1,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { ticks: { color: '#b3c0d1' }, grid: { display: false } },
+                    y: { ticks: { color: '#b3c0d1' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
+                },
+                plugins: { legend: { labels: { color: '#ffffff' } } }
+            }
+        });
+    });
+</script>
+{% endblock %}
