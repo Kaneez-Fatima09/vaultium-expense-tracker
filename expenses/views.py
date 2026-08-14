@@ -49,8 +49,11 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             return redirect('dashboard')
+        else:
+            messages.error(request, "Invalid username or password. Please try again.")
     else:
         form = AuthenticationForm()
+        
     return render(request, 'expenses/login.html', {'form': form})
 
 def logout_view(request):
@@ -276,7 +279,6 @@ def delete_expense(request, pk):
 def vault_unlock_view(request):
     profile, created = UserVaultProfile.objects.get_or_create(user=request.user)
     
-    # Agar user ne abhi tak PIN set nahi kiya, toh setup page par redirect kar do
     if not profile.vault_pin:
         return redirect('vault_setup')
 
@@ -334,7 +336,6 @@ def vault_forgot_view(request):
 
 @login_required(login_url='login')
 def vault_list_view(request):
-    # Check if vault is unlocked in session
     if not request.session.get('vault_unlocked', False):
         return redirect('vault_unlock')
         
@@ -366,7 +367,6 @@ def delete_vault_item(request, pk):
         vault_item.delete()
         messages.success(request, "Vault item removed successfully.")
     return redirect('vault_list')
-
 
 def help_view(request):
     return render(request, 'expenses/help.html')
